@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocalStorage } from './../hooks/useLocalStorage';
+import { useDarkMode } from './../hooks/useDarkMode'
 import moment from "moment";
 import {
   LineChart,
@@ -26,10 +28,17 @@ const Chart = ({ sparklineData }) => {
     })
     .filter(data => data);
 
+    const [darkMode, setDarkMode] = useDarkMode();
+    var color = "#8884d8";
+
+    useEffect(() => {
+      color = darkMode ? "#ffffff" : "#8884d8";
+    }, [darkMode])
+
   return (
     <LineChart width={1100} height={300} data={formattedData}>
-      <Line type="monotone" dataKey="value" stroke="#8884d8" />
-      <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+      <Line type="monotone" dataKey="value" stroke={color} />
+      <CartesianGrid stroke={color} strokeDasharray="5 5" />
       <XAxis dataKey="date" interval={3} />
       <YAxis />
       <Tooltip />
